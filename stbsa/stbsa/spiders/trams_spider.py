@@ -16,7 +16,7 @@ class TramsSpiderSpider(scrapy.Spider):
         # Remove 0 from the tram_lines list.
         tram_lines.remove('0')
 
-        for line in tram_lines:
+        for line in tram_lines[:1]:
             formdata = {'tlin1': line}
             yield FormRequest.from_response(response,
                                             formdata=formdata,
@@ -26,3 +26,6 @@ class TramsSpiderSpider(scrapy.Spider):
         title = response.xpath('..//h3').get()
         title = remove_tags(title).strip()
         self.logger.info(title)
+        type_ = response.xpath('..//table//table//table[2]//tr[2]/td').get()
+        type_ = remove_tags(type_).strip()
+        self.logger.info(type_)
